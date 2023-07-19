@@ -16,6 +16,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
+            console.log(JSON.stringify(context,null,4))
             let releaseInfo = await github.rest.repos.getReleaseByTag({
                owner: context.repo.owner,
                repo: "flow",
