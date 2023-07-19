@@ -40,7 +40,7 @@ jobs:
               generatedReleaseBody: releaseBody,
               releaseName: context.inputs.release_tag.slice(1)
             };
-            const parsed_outputs = Object.entries(outputs).map(([k,v])=>`${k}=${v}).join("\n")
+            const parsed_outputs = Object.entries(outputs).map(([k,v])=>`${k}=${v}`).join("\n")
             fs.writeFileSync(process.env.GITHUB_OUTPUT, Buffer.from(parsed_outputs))
       - name: 'Update Homebrew Formula'
         run: FLOW_RELEASE_NAME=${{steps.get_release.outputs.releaseName}} bash formula_template.sh > Formula/flowctl.rb
