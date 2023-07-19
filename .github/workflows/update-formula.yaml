@@ -16,18 +16,17 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            let releaseInfo = await github.rest.repos.getReleaseByTag({
+            let {data: releaseInfo} = await github.rest.repos.getReleaseByTag({
                owner: "estuary",
                repo: "flow",
                tag: context.payload.inputs.release_tag,
             });
-            console.log(JSON.stringify(releaseInfo,null,4))
             const desc = releaseInfo.body;
-            const creator = releaseInfo.owner.login;
+            const creator = releaseInfo.author.login;
             const id = releaseInfo.id;
             console.log(`Creating a PR for release ${id} by ${creator}. \nDescription: ${desc}`)
             
-            let {name: releaseName, body: releaseBody} = await github.rest.repos.generateReleaseNotes({
+            let {data: {name: releaseName, body: releaseBody}} = await github.rest.repos.generateReleaseNotes({
                owner: "estuary",
                repo: "flow",
                tag: context.payload.inputs.release_tag,
