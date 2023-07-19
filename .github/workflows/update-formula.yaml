@@ -16,11 +16,10 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            console.log(JSON.stringify(context,null,4))
             let releaseInfo = await github.rest.repos.getReleaseByTag({
-               owner: context.repo.owner,
+               owner: "estuary",
                repo: "flow",
-               tag: context.inputs.release_tag,
+               tag: context.payload.inputs.release_tag,
             });
             const desc = releaseInfo.body;
             const creator = releaseInfo.owner.login;
@@ -28,9 +27,9 @@ jobs:
             console.log(`Creating a PR for release ${id} by ${creator}. \nDescription: ${desc}`)
             
             let {name: releaseName, body: releaseBody} = await github.rest.repos.generateReleaseNotes({
-               owner: context.repo.owner,
+               owner: "estuary",
                repo: "flow",
-               tag: context.inputs.release_tag,
+               tag: context.payload.inputs.release_tag,
             })
             console.log(`Generated release notes:\n${releaseName}\n${releaseBody}`)
             const outputs = {
@@ -39,7 +38,7 @@ jobs:
               releaseUpstreamBody: desc,
               generatedReleaseName: releaseName,
               generatedReleaseBody: releaseBody,
-              releaseName: context.inputs.release_tag.slice(1)
+              releaseName: context.payload.inputs.release_tag.slice(1)
             };
             const parsed_outputs = Object.entries(outputs).map(([k,v])=>`${k}=${v}`).join("\n")
             fs.writeFileSync(process.env.GITHUB_OUTPUT, Buffer.from(parsed_outputs))
