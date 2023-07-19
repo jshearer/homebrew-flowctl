@@ -54,23 +54,24 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           commit-message: |
-            ${{steps.get_release.outputs.generatedReleaseName}}
+            Release `${{steps.get_release.outputs.releaseName}}` 
 
             ${{steps.get_release.outputs.releaseUpstreamBody}}
             
             ${{steps.get_release.outputs.generatedReleaseBody}}
           branch: release/${{steps.get_release.outputs.releaseName}}
           delete-branch: true
-          title: Release ${{steps.get_release.outputs.generatedReleaseBody}}
+          title: 🚀 Release `${{steps.get_release.outputs.releaseName}}` 🚢
           author: ${{steps.get_release.outputs.releaseCreator}} <${{steps.get_release.outputs.releaseCreator}}@users.noreply.github.com>
 
           body: |
-            ${{steps.get_release.outputs.generatedReleaseName}}
+            ## ${{steps.get_release.outputs.generatedReleaseName}}
 
             ${{steps.get_release.outputs.releaseUpstreamBody}}
             
+            ---
             ${{steps.get_release.outputs.generatedReleaseBody}}
             
-            By: @${{steps.get_release.outputs.releaseCreator}}
+            Release created by: @${{steps.get_release.outputs.releaseCreator}}
 
             
