@@ -21,6 +21,7 @@ jobs:
                repo: "flow",
                tag: context.payload.inputs.release_tag,
             });
+            console.log(JSON.stringify(releaseInfo,null,4))
             const desc = releaseInfo.body;
             const creator = releaseInfo.owner.login;
             const id = releaseInfo.id;
